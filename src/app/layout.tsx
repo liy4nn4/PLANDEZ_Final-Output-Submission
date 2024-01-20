@@ -1,0 +1,46 @@
+// This RootLayout component serves as the foundational layout for the entire application,
+// providing a consistent structure including a Navbar, main content area, and Footer.
+// It integrates global styles, font settings, and a Toaster for displaying notifications.
+
+import Navbar from '@/components/Navbar'
+import Providers from '@/components/Providers'
+import { cn, constructMetadata } from '@/lib/utils'
+import { Inter } from 'next/font/google'
+import { Toaster } from "sonner"
+import './globals.css'
+import Footer from '@/components/Footer'
+
+const inter = Inter({ subsets: ['latin'] })
+
+// Generate metadata for the application
+export const metadata = constructMetadata()
+
+// RootLayout component serves as the foundational layout for the application
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang='en' className='h-full'>
+      <body
+        className={cn(
+          'relative h-full font-sans antialiased',
+          inter.className
+        )}>
+        <main className='relative flex flex-col min-h-screen'>
+          <Providers>
+            {/* @ts-expect-error Server Component */}
+            <Navbar/>
+            <div className='flex-grow flex-1'>
+              {children}
+            </div>
+            <Footer />
+          </Providers>
+        </main>
+
+        <Toaster position='top-center' richColors />
+      </body>
+    </html>
+  )
+}
